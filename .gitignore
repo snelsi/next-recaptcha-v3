@@ -1,0 +1,7 @@
+node_modules
+lib
+examples
+build
+test
+src/**.js
+*.log
