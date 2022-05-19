@@ -3,8 +3,9 @@
 Straightforward solution for using ReCaptcha in your [Next.js](https://nextjs.org/) application.
 
 [![npm package](https://img.shields.io/npm/v/next-recaptcha-v3/latest.svg)](https://www.npmjs.com/package/next-recaptcha-v3)
-![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/next-recaptcha-v3?style=flat-square)](https://bundlephobia.com/result?p=next-recaptcha-v3)
 ![type definition](https://img.shields.io/npm/types/next-recaptcha-v3)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/snelsi/next-hubspot/blob/master/LICENSE)
 
 🗜️ Tiny and Tree-Shakable
 
@@ -59,10 +60,12 @@ const MyApp = ({ Component, pageProps }) => (
 
 | **Prop**        | **Type** | **Default** | **Required** | **Description**                                                                                                                                                  |
 | --------------- | -------- | ----------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| reCaptchaKey    | string   |             | No           | Your reCAPTCHA key, get one from [here](https://www.google.com/recaptcha/about)                                                                                  |
-| useEnterprise   | boolean  | false       | No           | Set to `true` if you use [ReCaptcha Enterprise](https://cloud.google.com/recaptcha-enterprise)                                                                   |
-| useRecaptchaNet | boolean  | false       | No           | Set to `true` if you want to use `recaptcha.net` to load ReCaptcha script. [docs](https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally) |
-| language        | string   |             | No           | Optional [Language Code](https://developers.google.com/recaptcha/docs/language)                                                                                  |
+| reCaptchaKey    | string   |             | ?           | Your reCAPTCHA key, get one from [here](https://www.google.com/recaptcha/about)                                                                                  |
+| useEnterprise   | boolean  | false       |              | Set to `true` if you use [ReCaptcha Enterprise](https://cloud.google.com/recaptcha-enterprise)                                                                   |
+| useRecaptchaNet | boolean  | false       |              | Set to `true` if you want to use `recaptcha.net` to load ReCaptcha script. [docs](https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally) |
+| language        | string   |             |              | Optional [Language Code](https://developers.google.com/recaptcha/docs/language)                                                                                  |
+
+You must pass `reCaptchaKey` if `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` env variable is not defined.
 
 All extra props are passed directly to the Script tag, so you can use all props from the [next/script documentation](https://nextjs.org/docs/api-reference/next/script).
 
