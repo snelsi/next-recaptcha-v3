@@ -39,7 +39,7 @@
     "react-dom": ">=16.8.0"
   },
   "engines": {
-    "node": ">=12.22.0"
+    "node": ">=14.0.0"
   },
   "devDependencies": {
     "next": "^12.3.1",
