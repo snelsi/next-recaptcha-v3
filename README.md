@@ -149,7 +149,7 @@ const MyPage = () => {
 
   return (
     <>
-      <GoogleReCaptcha onVerify={setToken} action="page-view" />
+      <ReCaptcha onVerify={setToken} action="page-view" />
       <h1>Hello</h1>
     </>
   );
