@@ -10,10 +10,10 @@ export interface useReCaptchaProps extends ReCaptchaContextProps {
  * @example
  * const { executeRecaptcha } = useReCaptcha()
  */
-const useReCaptcha = (passedReCaptchaKey?: string): useReCaptchaProps => {
-  const { grecaptcha, reCaptchaKey, ...contextProps } = useReCaptchaContext();
+const useReCaptcha = (reCaptchaKey?: string): useReCaptchaProps => {
+  const { grecaptcha, reCaptchaKey: contextReCaptchaKey, ...contextProps } = useReCaptchaContext();
 
-  const siteKey = passedReCaptchaKey || reCaptchaKey;
+  const siteKey = reCaptchaKey || contextReCaptchaKey;
 
   const executeRecaptcha = useCallback(
     async (action: string) => {
