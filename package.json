@@ -45,7 +45,7 @@
     "next": "^12.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-commonjs": "^23.0.0",
     "@rollup/plugin-node-resolve": "^14.1.0",
     "@types/node": "^18.8.2",
     "@types/react": "^18.0.21",
