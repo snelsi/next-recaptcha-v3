@@ -3,3 +3,4 @@ node_modules
 **/_next/**
 next-env.d.ts
 next.config.js
+**/lib/**
