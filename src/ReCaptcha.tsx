@@ -18,11 +18,10 @@ const ReCaptcha: React.FC<ReCaptchaProps> = ({
   validate = true,
   reCaptchaKey,
 }) => {
-  const { executeRecaptcha } = useReCaptcha(reCaptchaKey);
+  const { loaded, executeRecaptcha } = useReCaptcha(reCaptchaKey);
 
   useEffect(() => {
-    if (!validate) return;
-    if (typeof executeRecaptcha !== "function") return;
+    if (!validate || !loaded) return;
     if (typeof onValidate !== "function") return;
 
     const handleExecuteRecaptcha = async () => {
@@ -31,7 +30,7 @@ const ReCaptcha: React.FC<ReCaptchaProps> = ({
     };
 
     handleExecuteRecaptcha();
-  }, [action, onValidate, validate, executeRecaptcha]);
+  }, [action, onValidate, validate, loaded, executeRecaptcha]);
 
   return null;
 };

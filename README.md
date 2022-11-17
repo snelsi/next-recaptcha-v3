@@ -60,7 +60,7 @@ const MyApp = ({ Component, pageProps }) => (
 
 | **Prop**        | **Type** | **Default** | **Required** | **Description**                                                                                                                                                  |
 | --------------- | -------- | ----------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| reCaptchaKey    | string   |             | ?           | Your reCAPTCHA key, get one from [here](https://www.google.com/recaptcha/about)                                                                                  |
+| reCaptchaKey    | string   |             | ?            | Your reCAPTCHA key, get one from [here](https://www.google.com/recaptcha/about)                                                                                  |
 | useEnterprise   | boolean  | false       |              | Set to `true` if you use [ReCaptcha Enterprise](https://cloud.google.com/recaptcha-enterprise)                                                                   |
 | useRecaptchaNet | boolean  | false       |              | Set to `true` if you want to use `recaptcha.net` to load ReCaptcha script. [docs](https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally) |
 | language        | string   |             |              | Optional [Language Code](https://developers.google.com/recaptcha/docs/language)                                                                                  |
@@ -68,6 +68,27 @@ const MyApp = ({ Component, pageProps }) => (
 You must pass `reCaptchaKey` if `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` env variable is not defined.
 
 All extra props are passed directly to the Script tag, so you can use all props from the [next/script documentation](https://nextjs.org/docs/api-reference/next/script).
+
+## Accessing global context props
+
+You can access global `grecaptcha` object, script's loading state and other props by calling `useReCaptcha` hook:
+
+```tsx
+import { useReCaptcha } from "next-recaptcha-v3";
+
+const {
+  /** reCAPTCHA_site_key */
+  reCaptchaKey,
+  /** Global ReCaptcha object */
+  grecaptcha,
+  /** Is ReCaptcha script loaded */
+  loaded,
+  /** Is ReCaptcha script failed to load */
+  error,
+  /** Other hook props */
+  ...otherProps
+} = useReCaptcha();
+```
 
 ### reCAPTCHA Enterprise
 
@@ -165,18 +186,18 @@ import { validateToken } from "./utils";
 
 interface MyPageProps extends WithReCaptchaProps {}
 
-const MyPage: React.FC<MyPageProps> = ({ executeRecaptcha }) => {
+const MyPage: React.FC<MyPageProps> = ({ loaded, executeRecaptcha }) => {
   const [token, setToken] = useState<string>(null);
 
   useEffect(() => {
-    if (typeof executeRecaptcha === "function") {
+    if (loaded) {
       const generateToken = async () => {
         const newToken = await executeRecaptcha("page-view");
         setToken(newToken);
       };
       generateToken();
     }
-  }, [executeRecaptcha]);
+  }, [loaded, executeRecaptcha]);
 
   useEffect(() => {
     if (token) {

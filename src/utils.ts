@@ -1,3 +1,5 @@
+import { useEffect, useLayoutEffect } from "react";
+
 /**
  * Function to generate the src for the script tag
  * Refs: https://developers.google.com/recaptcha/docs/loading
@@ -22,3 +24,7 @@ export const getRecaptchaScriptSrc = ({
 
   return src;
 };
+
+// https://usehooks-ts.com/react-hook/use-isomorphic-layout-effect
+export const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
