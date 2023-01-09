@@ -2,7 +2,6 @@ import externals from "rollup-plugin-node-externals";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
-import terser from "@rollup/plugin-terser";
 
 import pkg from "./package.json" assert { type: "json" };
 
@@ -23,7 +22,7 @@ const config = {
       sourcemap: true,
     },
   ],
-  plugins: [externals(), resolve(), commonjs(), typescript(), terser()],
+  plugins: [externals(), resolve(), commonjs(), typescript()],
 };
 
 export default config;
