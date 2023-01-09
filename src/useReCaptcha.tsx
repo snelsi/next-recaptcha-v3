@@ -12,7 +12,12 @@ export interface useReCaptchaProps extends ReCaptchaContextProps {
  * const { executeRecaptcha } = useReCaptcha()
  */
 const useReCaptcha = (reCaptchaKey?: string): useReCaptchaProps => {
-  const { grecaptcha, reCaptchaKey: contextReCaptchaKey, ...contextProps } = useReCaptchaContext();
+  const {
+    grecaptcha,
+    loaded,
+    reCaptchaKey: contextReCaptchaKey,
+    ...contextProps
+  } = useReCaptchaContext();
 
   const siteKey = reCaptchaKey || contextReCaptchaKey;
 
@@ -21,7 +26,7 @@ const useReCaptcha = (reCaptchaKey?: string): useReCaptchaProps => {
 
   useIsomorphicLayoutEffect(() => {
     executeCaptchaRef.current = grecaptcha?.execute;
-  }, [grecaptcha?.execute]);
+  }, [loaded, grecaptcha?.execute]);
 
   const executeRecaptcha = useCallback(
     async (action: string) => {
@@ -36,7 +41,7 @@ const useReCaptcha = (reCaptchaKey?: string): useReCaptchaProps => {
     [siteKey],
   );
 
-  return { ...contextProps, grecaptcha, reCaptchaKey: siteKey, executeRecaptcha };
+  return { ...contextProps, grecaptcha, loaded, reCaptchaKey: siteKey, executeRecaptcha };
 };
 
 export { useReCaptcha };
