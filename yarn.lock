@@ -2264,9 +2264,9 @@ rimraf@^3.0.2:
     glob "^7.1.3"
 
 rollup-plugin-node-externals@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-node-externals/-/rollup-plugin-node-externals-5.0.3.tgz#77522654ddbae6f28f6ae15a849d54427d5a637d"
-  integrity sha512-2hehUFt243Lra6tf1cJyRMz5OlTf+kn8zYyl8wR4MLkUiX+X96YVhfer7qsn2X30mnuGVvpY/oyFlJ86i9DF3Q==
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-node-externals/-/rollup-plugin-node-externals-5.1.0.tgz#66accb0291bfc50c637c20d94ab26d4e5ff92e85"
+  integrity sha512-3kBlflgq7X7xZJCskDz3PRmnuVptEal/VHOmYCozqncVRHXp9986fwyQdsFpzaQljjF2WOdlLMZLyNBxbA5hww==
 
 rollup@^3.9.1:
   version "3.9.1"
