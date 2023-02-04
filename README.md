@@ -170,7 +170,7 @@ const MyPage = () => {
 
   return (
     <>
-      <ReCaptcha onVerify={setToken} action="page-view" />
+      <ReCaptcha onValidate={setToken} action="page-view" />
       <h1>Hello</h1>
     </>
   );
