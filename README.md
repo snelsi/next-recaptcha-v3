@@ -214,6 +214,23 @@ const MyPage: React.FC<MyPageProps> = ({ loaded, executeRecaptcha }) => {
 export default withReCaptcha(MyPage);
 ```
 
+## Helpful links
+
+<details>
+  <summary>
+    List of helpful links, docs, guides and tutorials.
+  </summary>
+
+- [Google Developers Portal](https://developers.google.com/recaptcha/)
+- [Video: Introducing reCAPTCHA v3](https://www.youtube.com/watch?v=tbvxFW4UJdU)
+- [Blog: Introducing reCAPTCHA v3](https://developers.google.com/search/blog/2018/10/introducing-recaptcha-v3-new-way-to)
+- [What is reCAPTCHA?](https://www.google.com/recaptcha/about/)
+- [How To Add Google ReCAPTCHA V3 In A Next.Js Form](https://www.techomoro.com/how-to-add-google-recaptcha-v3-in-a-next-js-form/)
+- [Integrating reCAPTCHA v3 with Next.js](https://dev.to/sumukhakb210/integrating-recaptcha-with-nextjs-4ig6)
+- [Integrating reCAPTCHA v2 with Next.js](https://prateeksurana.me/blog/integrating-recaptcha-with-next/)
+- [Github Repo: reCAPTCHA v3 with Next.js](https://github.com/kokou2kpadenou/recaptcha3-nextjs)
+</details>
+
 ## TypeScript
 
 The module is written in TypeScript and type definitions are included.
