@@ -112,7 +112,9 @@ Send the resulting token to the API request to your server. You can then decrypt
 
 1. React Hook: `useReCaptcha` (recommended approach)
 
-Use `executeRecaptcha` function returned from the `useReCaptcha` hook to generate token. Add a unique action name to better understand at what moment the token was generated
+Use `executeRecaptcha` function returned from the `useReCaptcha` hook to generate token. Add a unique [action name](https://developers.google.com/recaptcha/docs/v3#actions) to better understand at what moment the token was generated.
+
+> 🛈 Actions may only contain alphanumeric characters and slashes, and must not be user-specific.
 
 ```tsx
 import { useState } from "react";
@@ -128,7 +130,7 @@ const MyForm = () => {
     e.preventDefault();
 
     // Generate ReCaptcha token
-    const token = await executeRecaptcha("form-submit");
+    const token = await executeRecaptcha("form_submit");
 
     // Attach generated token to your API requests and validate it on the server
     fetch("/api/form-submit", {
@@ -170,7 +172,7 @@ const MyPage = () => {
 
   return (
     <>
-      <ReCaptcha onValidate={setToken} action="page-view" />
+      <ReCaptcha onValidate={setToken} action="page_view" />
       <h1>Hello</h1>
     </>
   );
@@ -192,7 +194,7 @@ const MyPage: React.FC<MyPageProps> = ({ loaded, executeRecaptcha }) => {
   useEffect(() => {
     if (loaded) {
       const generateToken = async () => {
-        const newToken = await executeRecaptcha("page-view");
+        const newToken = await executeRecaptcha("page_view");
         setToken(newToken);
       };
       generateToken();
