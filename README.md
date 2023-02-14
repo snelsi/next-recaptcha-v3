@@ -114,7 +114,7 @@ Send the resulting token to the API request to your server. You can then decrypt
 
 Use `executeRecaptcha` function returned from the `useReCaptcha` hook to generate token. Add a unique [action name](https://developers.google.com/recaptcha/docs/v3#actions) to better understand at what moment the token was generated.
 
-> 🛈 Actions may only contain alphanumeric characters and slashes, and must not be user-specific.
+> 🛈 Note: Actions might contain only alphanumeric characters, slashes, and underscores. Actions must not be user-specific.
 
 ```tsx
 import { useState } from "react";
