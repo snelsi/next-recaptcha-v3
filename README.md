@@ -126,21 +126,24 @@ const MyForm = () => {
   // Import 'executeRecaptcha' using 'useReCaptcha' hook
   const { executeRecaptcha } = useReCaptcha();
 
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    // Generate ReCaptcha token
-    const token = await executeRecaptcha("form_submit");
+      // Generate ReCaptcha token
+      const token = await executeRecaptcha("form_submit");
 
-    // Attach generated token to your API requests and validate it on the server
-    fetch("/api/form-submit", {
-      method: "POST",
-      body: {
-        data: { name },
-        token,
-      },
-    });
-  }, []);
+      // Attach generated token to your API requests and validate it on the server
+      fetch("/api/form-submit", {
+        method: "POST",
+        body: {
+          data: { name },
+          token,
+        },
+      });
+    },
+    [executeRecaptcha, name],
+  );
 
   return (
     <form onSubmit={handleSubmit}>
