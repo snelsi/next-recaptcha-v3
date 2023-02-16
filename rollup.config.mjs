@@ -5,6 +5,12 @@ import typescript from "@rollup/plugin-typescript";
 
 import pkg from "./package.json" assert { type: "json" };
 
+const createOutput = (config) => ({
+  sourcemap: true,
+  banner: "'use client';",
+  ...(config || {}),
+});
+
 /**
  * @type {import('rollup').RollupOptions}
  */
@@ -14,14 +20,12 @@ const config = {
     {
       file: pkg.main,
       format: "cjs",
-      sourcemap: true,
     },
     {
       file: pkg.module,
       format: "esm",
-      sourcemap: true,
     },
-  ],
+  ].map(createOutput),
   plugins: [externals(), resolve(), commonjs(), typescript()],
 };
 
