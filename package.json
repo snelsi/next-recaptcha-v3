@@ -35,6 +35,11 @@
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
+  "peerDependenciesMeta": {
+    "react-dom": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": ">=16.0.0"
   },
