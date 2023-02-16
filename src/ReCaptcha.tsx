@@ -10,7 +10,7 @@ interface ReCaptchaProps {
 
 /** React Component to generate ReCaptcha token
  * @example
- * <ReCaptcha action='form-submit' onValidate={handleToken} />
+ * <ReCaptcha action='form_submit' onValidate={handleToken} />
  */
 const ReCaptcha: React.FC<ReCaptchaProps> = ({
   action,
