@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useReCaptcha } from "./useReCaptcha";
 import type { useReCaptchaProps } from "./useReCaptcha";

@@ -2,14 +2,14 @@ import externals from "rollup-plugin-node-externals";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
+import preserveDirectives from "rollup-plugin-preserve-directives";
 
-import pkg from "./package.json" assert { type: "json" };
-
-const createOutput = (config) => ({
-  sourcemap: true,
-  banner: "'use client';",
-  ...(config || {}),
-});
+const outputOptions = {
+  sourcemap: false,
+  preserveModules: true,
+  preserveModulesRoot: "src",
+  dir: "lib",
+};
 
 /**
  * @type {import('rollup').RollupOptions}
@@ -18,15 +18,17 @@ const config = {
   input: "src/index.ts",
   output: [
     {
-      file: pkg.main,
       format: "cjs",
+      entryFileNames: "[name].cjs",
+      exports: "auto",
+      ...outputOptions,
     },
     {
-      file: pkg.module,
       format: "esm",
+      ...outputOptions,
     },
-  ].map(createOutput),
-  plugins: [externals(), resolve(), commonjs(), typescript()],
+  ],
+  plugins: [externals(), resolve(), commonjs(), preserveDirectives(), typescript()],
 };
 
 export default config;
