@@ -8,6 +8,7 @@ import React, {
   useContext,
   createContext,
   useDebugValue,
+  useRef,
 } from "react";
 import Script, { ScriptProps } from "next/script";
 import type { IReCaptcha } from "./recaptcha.types";
@@ -77,9 +78,13 @@ const ReCaptchaProvider: React.FC<ReCaptchaProviderProps> = ({
     null;
 
   // Reset state when script src is changed
+  const mounted = useRef(false);
   useEffect(() => {
-    setLoaded(false);
-    setError(false);
+    if (mounted.current) {
+      setLoaded(false);
+      setError(false);
+    }
+    mounted.current = true;
   }, [src]);
 
   // Handle script load
