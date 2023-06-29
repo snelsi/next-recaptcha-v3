@@ -10,9 +10,9 @@ import React, {
   useDebugValue,
   useRef,
 } from "react";
-import Script, { ScriptProps } from "next/script";
-import type { IReCaptcha } from "./recaptcha.types";
-import { getRecaptchaScriptSrc } from "./utils";
+import Script, { ScriptProps } from "next/script.js";
+import type { IReCaptcha } from "./recaptcha.types.js";
+import { getRecaptchaScriptSrc } from "./utils.js";
 
 interface ReCaptchaContextProps {
   /** reCAPTCHA_site_key */
@@ -124,6 +124,7 @@ const ReCaptchaProvider: React.FC<ReCaptchaProviderProps> = ({
   return (
     <ReCaptchaContext.Provider value={value}>
       {children}
+      {/* @ts-expect-error: Why are you making my life so hard, Typescript? */}
       <Script id={id} src={src} strategy={strategy} onLoad={onLoad} onError={onError} {...props} />
     </ReCaptchaContext.Provider>
   );

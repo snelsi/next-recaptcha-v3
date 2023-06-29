@@ -3,11 +3,11 @@
     "rootDir": "src",
     "declaration": true,
     "declarationDir": "lib",
-    "module": "esnext",
+    "module": "node16",
     "target": "es2020",
     "sourceMap": false,
     "jsx": "react",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
     "emitDeclarationOnly": true
   },

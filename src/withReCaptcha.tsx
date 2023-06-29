@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { useReCaptcha } from "./useReCaptcha";
-import type { useReCaptchaProps } from "./useReCaptcha";
+import { useReCaptcha } from "./useReCaptcha.js";
+import type { useReCaptchaProps } from "./useReCaptcha.js";
 
 interface WithReCaptchaProps extends useReCaptchaProps {}
 

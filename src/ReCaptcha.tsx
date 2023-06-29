@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useReCaptcha } from "./useReCaptcha";
+import { useReCaptcha } from "./useReCaptcha.js";
 
 interface ReCaptchaProps {
   onValidate: (token: string) => void;

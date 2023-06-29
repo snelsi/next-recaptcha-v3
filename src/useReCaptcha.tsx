@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useRef } from "react";
-import { useReCaptchaContext } from "./ReCaptchaProvider";
-import { useIsomorphicLayoutEffect } from "./utils";
-import type { ReCaptchaContextProps } from "./ReCaptchaProvider";
+import { useReCaptchaContext } from "./ReCaptchaProvider.js";
+import { useIsomorphicLayoutEffect } from "./utils.js";
+import type { ReCaptchaContextProps } from "./ReCaptchaProvider.js";
 
 export interface useReCaptchaProps extends ReCaptchaContextProps {
   executeRecaptcha: (action: string) => Promise<string>;

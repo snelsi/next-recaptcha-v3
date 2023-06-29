@@ -15,9 +15,9 @@
     "react",
     "hook"
   ],
-  "main": "lib/index.cjs",
-  "module": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "type": "module",
+  "exports": "./index.js",
+  "types": "./index.d.ts",
   "files": [
     "lib"
   ],
