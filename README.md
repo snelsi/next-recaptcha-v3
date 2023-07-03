@@ -27,6 +27,10 @@ or
 npm install next-recaptcha-v3 --save
 ```
 
+## Pure ESM package
+
+This package is now [pure ESM](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). It cannot be `require()`'d from CommonJS.
+
 ## Generate reCAPTCHA Key
 
 To use ReCaptcha, you need to generate a `reCAPTCHA_site_key` for your site's domain. You can get one [here](https://www.google.com/recaptcha/intro/v3.html).
