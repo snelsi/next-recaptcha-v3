@@ -36,6 +36,10 @@ const useReCaptcha = (reCaptchaKey?: string): useReCaptchaProps => {
         throw new Error("Recaptcha has not been loaded");
       }
 
+      if (!siteKey) {
+        throw new Error("ReCaptcha sitekey is not defined");
+      }
+
       const result = await executeCaptchaRef.current(siteKey, { action });
 
       return result;
