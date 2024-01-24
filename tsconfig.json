@@ -6,6 +6,7 @@
     "module": "node16",
     "target": "es2020",
     "sourceMap": false,
+    "strict": true,
     "jsx": "react",
     "moduleResolution": "node16",
     "esModuleInterop": true,
