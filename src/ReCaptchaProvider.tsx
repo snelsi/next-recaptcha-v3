@@ -70,7 +70,7 @@ const ReCaptchaProvider: React.FC<ReCaptchaProviderProps> = ({
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
-  const reCaptchaKey = passedReCaptchaKey || process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || null;
+  const reCaptchaKey = passedReCaptchaKey || process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
   const src =
     passedSrc ||
