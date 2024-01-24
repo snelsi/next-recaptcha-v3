@@ -12,8 +12,8 @@ export const getRecaptchaScriptSrc = ({
   useRecaptchaNet = false,
   useEnterprise = false,
 }: {
-  reCaptchaKey?: string;
-  language?: string;
+  reCaptchaKey?: string | null;
+  language?: string | null;
   useRecaptchaNet?: boolean;
   useEnterprise?: boolean;
 } = {}): string => {
