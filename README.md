@@ -121,7 +121,7 @@ Use `executeRecaptcha` function returned from the `useReCaptcha` hook to generat
 > 🛈 Note: Actions might contain only alphanumeric characters, slashes, and underscores. Actions must not be user-specific.
 
 ```tsx
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useReCaptcha } from "next-recaptcha-v3";
 
 const MyForm = () => {
