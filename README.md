@@ -163,7 +163,7 @@ const MyForm = () => {
 Alternatively, you can also generate token by using `ReCaptcha` component.
 
 ```tsx
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ReCaptcha } from "next-recaptcha-v3";
 import { validateToken } from "./utils";
 
@@ -189,7 +189,7 @@ const MyPage = () => {
 3. `withReCaptcha` HOC
 
 ```tsx
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { withReCaptcha, WithReCaptchaProps } from "next-recaptcha-v3";
 import { validateToken } from "./utils";
 
