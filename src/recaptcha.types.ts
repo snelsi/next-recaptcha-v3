@@ -31,6 +31,11 @@ export interface Parameters {
    */
   type?: Type | undefined;
   /**
+   *  Optional. Forces the widget to render in a specific language.
+   *  Auto-detects the user's language if unspecified.
+   */
+  hl?: string | undefined;
+  /**
    * Optional. The size of the widget.
    * Accepted values: "compact", "normal", "invisible".
    * @default "compact"
@@ -47,6 +52,11 @@ export interface Parameters {
    * @default "bottomright"
    */
   badge?: Badge | undefined;
+  /**
+   * Optional. Enterprise checkbox reCAPTCHA only.
+   * The action associated with the user-initiated event.
+   */
+  action?: string | undefined;
   /**
    * Optional. Invisible reCAPTCHA only. For plugin owners to not interfere with existing reCAPTCHA installations on a page.
    * If true, this reCAPTCHA instance will be part of a separate ID space.
