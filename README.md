@@ -18,18 +18,20 @@ Straightforward solution for using ReCaptcha in your [Next.js](https://nextjs.or
 ## Install
 
 ```ssh
-yarn add next-recaptcha-v3
+npm i next-recaptcha-v3
 ```
 
-or
+```ssh
+pnpm i next-recaptcha-v3
+```
 
 ```ssh
-npm install next-recaptcha-v3 --save
+yarn add next-recaptcha-v3
 ```
 
 ## Pure ESM package
 
-This package is now [pure ESM](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). It cannot be `require()`'d from CommonJS.
+This package is [pure ESM](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). It cannot be `require()`'d from CommonJS.
 
 ## Generate reCAPTCHA Key
 
@@ -85,9 +87,11 @@ const {
   reCaptchaKey,
   /** Global ReCaptcha object */
   grecaptcha,
-  /** Is ReCaptcha script loaded */
-  loaded,
-  /** Is ReCaptcha script failed to load */
+  /** If `true`, ReCaptcha script has been loaded */
+  isLoaded,
+  /** If `true`, an error occurred while loading ReCaptcha script */
+  isError,
+  /** Error received while loading ReCaptcha script */
   error,
   /** Other hook props */
   ...otherProps
@@ -195,18 +199,18 @@ import { validateToken } from "./utils";
 
 interface MyPageProps extends WithReCaptchaProps {}
 
-const MyPage: React.FC<MyPageProps> = ({ loaded, executeRecaptcha }) => {
+const MyPage: React.FC<MyPageProps> = ({ isLoaded, executeRecaptcha }) => {
   const [token, setToken] = useState<string>(null);
 
   useEffect(() => {
-    if (loaded) {
+    if (isLoaded) {
       const generateToken = async () => {
         const newToken = await executeRecaptcha("page_view");
         setToken(newToken);
       };
       generateToken();
     }
-  }, [loaded, executeRecaptcha]);
+  }, [isLoaded, executeRecaptcha]);
 
   useEffect(() => {
     if (token) {

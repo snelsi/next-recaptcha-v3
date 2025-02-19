@@ -17,9 +17,9 @@ type ReCaptchaConfigProps = {
 };
 
 type ReCaptchaStateProps = {
-  /** Is ReCaptcha script loaded */
+  /** If `true`, ReCaptcha script has been loaded */
   readonly isLoaded: boolean;
-  /** Is there an error while loading ReCaptcha script */
+  /** If `true`, an error occurred while loading ReCaptcha script */
   readonly isError: boolean;
   /** Error received while loading ReCaptcha script */
   readonly error: Error | null;
