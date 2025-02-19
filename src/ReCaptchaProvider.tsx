@@ -1,74 +1,73 @@
 "use client";
 
-import React, {
-  useMemo,
-  useState,
-  useEffect,
-  useCallback,
-  useContext,
-  createContext,
-  useDebugValue,
-  useRef,
-} from "react";
+import React, { useMemo, useState, useCallback, useContext, createContext } from "react";
 import Script, { ScriptProps } from "next/script.js";
-import type { IReCaptcha } from "./recaptcha.types.js";
-import { getRecaptchaScriptSrc } from "./utils.js";
 
-interface ReCaptchaContextProps {
+import { getRecaptchaScriptSrc, RECAPTCHA_LOADED_EVENT } from "./utils.js";
+
+type ReCaptchaConfigProps = {
   /** reCAPTCHA_site_key */
   readonly reCaptchaKey: string | null;
-  /** Global ReCaptcha object */
-  readonly grecaptcha: IReCaptcha | null;
-  /** Is ReCaptcha script loaded */
-  readonly loaded: boolean;
-  /** Is ReCaptcha failed to load */
-  readonly error: boolean;
-}
-
-const ReCaptchaContext = createContext<ReCaptchaContextProps>({
-  reCaptchaKey: null,
-  grecaptcha: null,
-  loaded: false,
-  error: false,
-});
-
-const useReCaptchaContext = () => {
-  const values = useContext(ReCaptchaContext);
-  useDebugValue(`grecaptcha available: ${values?.loaded ? "Yes" : "No"}`);
-  useDebugValue(`ReCaptcha Script: ${values?.loaded ? "Loaded" : "Not Loaded"}`);
-  useDebugValue(`Failed to load Script: ${values?.error ? "Yes" : "No"}`);
-  return values;
+  /** Language code */
+  readonly language: string | null;
+  /** Use ReCaptcha Enterprise */
+  readonly useEnterprise: boolean;
+  /** Whether to use recaptcha.net for loading the script */
+  readonly useRecaptchaNet: boolean;
 };
 
-interface ReCaptchaProviderProps extends Partial<Omit<ScriptProps, "onLoad">> {
+type ReCaptchaStateProps = {
+  /** Is ReCaptcha script loaded */
+  readonly isLoaded: boolean;
+  /** Is there an error while loading ReCaptcha script */
+  readonly isError: boolean;
+  /** Error received while loading ReCaptcha script */
+  readonly error: Error | null;
+};
+
+export type ReCaptchaContextProps = ReCaptchaConfigProps & ReCaptchaStateProps;
+
+export const ReCaptchaContext = createContext<ReCaptchaContextProps>({
+  reCaptchaKey: null,
+  language: null,
+  useEnterprise: false,
+  useRecaptchaNet: false,
+
+  isLoaded: false,
+  isError: false,
+  error: null,
+});
+
+export const useReCaptchaContext = () => useContext(ReCaptchaContext);
+
+export interface ReCaptchaProviderProps extends Partial<ScriptProps> {
   reCaptchaKey?: string;
-  language?: string;
+  language?: string | null;
   useRecaptchaNet?: boolean;
   useEnterprise?: boolean;
   children?: React.ReactNode;
-  onLoad?: (grecaptcha: IReCaptcha, e: any) => void;
 }
 
-const ReCaptchaProvider: React.FC<ReCaptchaProviderProps> = ({
+export const ReCaptchaProvider: React.FC<ReCaptchaProviderProps> = ({
   reCaptchaKey: passedReCaptchaKey,
 
   useEnterprise = false,
   useRecaptchaNet = false,
-  language,
+  language = null,
   children,
 
-  id = "google-recaptcha-v3",
   strategy = "afterInteractive",
 
   src: passedSrc,
-  onLoad: passedOnLoad,
+  onReady: passedOnReady,
   onError: passedOnError,
 
   ...props
 }) => {
-  const [grecaptcha, setGreCaptcha] = useState<IReCaptcha | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const isError = !!error;
 
   const reCaptchaKey = passedReCaptchaKey || process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || null;
 
@@ -77,58 +76,42 @@ const ReCaptchaProvider: React.FC<ReCaptchaProviderProps> = ({
     getRecaptchaScriptSrc({ reCaptchaKey, language, useRecaptchaNet, useEnterprise }) ||
     null;
 
-  // Reset state when script src is changed
-  const mounted = useRef(false);
-  useEffect(() => {
-    if (mounted.current) {
-      setLoaded(false);
-      setError(false);
-    }
-    mounted.current = true;
-  }, [src]);
-
   // Handle script load
-  const onLoad = useCallback(
-    (e?: any) => {
-      const grecaptcha = useEnterprise ? window?.grecaptcha?.enterprise : window?.grecaptcha;
-
-      if (grecaptcha) {
-        grecaptcha.ready(() => {
-          setGreCaptcha(grecaptcha);
-          setLoaded(true);
-          passedOnLoad?.(grecaptcha, e);
-        });
-      }
-    },
-    [passedOnLoad, useEnterprise],
-  );
-
-  // Run 'onLoad' function once just in case if grecaptcha is already globally available in window
-  useEffect(() => onLoad(), [onLoad]);
+  const onReady = useCallback(() => {
+    setError(null);
+    setIsLoaded(true);
+    window.dispatchEvent(new Event(RECAPTCHA_LOADED_EVENT));
+    passedOnReady?.();
+  }, [passedOnReady]);
 
   // Handle script error
   const onError = useCallback(
-    (e: any) => {
-      setError(true);
+    (e: Error) => {
+      setError(e);
       passedOnError?.(e);
     },
     [passedOnError],
   );
 
   // Prevent unnecessary rerenders
-  const value = useMemo(
-    () => ({ reCaptchaKey, grecaptcha, loaded, error }),
-    [reCaptchaKey, grecaptcha, loaded, error],
+  const value: ReCaptchaContextProps = useMemo(
+    () => ({
+      reCaptchaKey,
+      language,
+      useEnterprise,
+      useRecaptchaNet,
+      isLoaded: isLoaded,
+      isError,
+      error,
+    }),
+    [reCaptchaKey, language, useEnterprise, useRecaptchaNet, isLoaded, isError, error],
   );
 
   return (
     <ReCaptchaContext.Provider value={value}>
       {children}
       {/* @ts-expect-error: Why are you making my life so hard, Typescript? */}
-      <Script id={id} src={src} strategy={strategy} onLoad={onLoad} onError={onError} {...props} />
+      <Script src={src} strategy={strategy} onReady={onReady} onError={onError} {...props} />
     </ReCaptchaContext.Provider>
   );
 };
-
-export { ReCaptchaContext, useReCaptchaContext, ReCaptchaProvider };
-export type { ReCaptchaContextProps, ReCaptchaProviderProps };

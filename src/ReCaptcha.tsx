@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useReCaptcha } from "./useReCaptcha.js";
 
-interface ReCaptchaProps {
+export interface ReCaptchaProps {
   onValidate: (token: string) => void;
   action: string;
   validate?: boolean;
@@ -14,16 +14,16 @@ interface ReCaptchaProps {
  * @example
  * <ReCaptcha action='form_submit' onValidate={handleToken} />
  */
-const ReCaptcha: React.FC<ReCaptchaProps> = ({
+export const ReCaptcha: React.FC<ReCaptchaProps> = ({
   action,
   onValidate,
   validate = true,
   reCaptchaKey,
 }) => {
-  const { loaded, executeRecaptcha } = useReCaptcha(reCaptchaKey);
+  const { isLoaded, executeRecaptcha } = useReCaptcha(reCaptchaKey);
 
   useEffect(() => {
-    if (!validate || !loaded) return;
+    if (!validate || !isLoaded) return;
     if (typeof onValidate !== "function") return;
 
     const handleExecuteRecaptcha = async () => {
@@ -32,10 +32,7 @@ const ReCaptcha: React.FC<ReCaptchaProps> = ({
     };
 
     handleExecuteRecaptcha();
-  }, [action, onValidate, validate, loaded, executeRecaptcha]);
+  }, [action, onValidate, validate, isLoaded, executeRecaptcha]);
 
   return null;
 };
-
-export { ReCaptcha };
-export type { ReCaptchaProps };

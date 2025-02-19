@@ -4,13 +4,13 @@ import React from "react";
 import { useReCaptcha } from "./useReCaptcha.js";
 import type { useReCaptchaProps } from "./useReCaptcha.js";
 
-interface WithReCaptchaProps extends useReCaptchaProps {}
+export type WithReCaptchaProps = useReCaptchaProps;
 
 /** React HOC to generate ReCaptcha token
  * @example
  * withReCaptcha(MyComponent)
  */
-function withReCaptcha<T extends WithReCaptchaProps = WithReCaptchaProps>(
+export function withReCaptcha<T extends WithReCaptchaProps = WithReCaptchaProps>(
   WrappedComponent: React.ComponentType<T>,
 ) {
   // Try to create a nice displayName for React Dev Tools.
@@ -28,6 +28,3 @@ function withReCaptcha<T extends WithReCaptchaProps = WithReCaptchaProps>(
 
   return ComponentWithReCaptcha;
 }
-
-export { withReCaptcha };
-export type { WithReCaptchaProps };

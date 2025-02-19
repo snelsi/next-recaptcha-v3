@@ -1,53 +1,77 @@
 "use client";
 
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { useReCaptchaContext } from "./ReCaptchaProvider.js";
-import { useIsomorphicLayoutEffect } from "./utils.js";
 import type { ReCaptchaContextProps } from "./ReCaptchaProvider.js";
+import type { IReCaptcha } from "./recaptcha.types.js";
+import { getGrecaptcha, useGrecaptcha } from "./utils.js";
 
 export interface useReCaptchaProps extends ReCaptchaContextProps {
+  /** reCAPTCHA instance */
+  grecaptcha: IReCaptcha | null;
+  /**
+   * Executes the reCAPTCHA verification process for a given action.
+   * Actions may only contain alphanumeric characters and slashes, and must not be user-specific.
+   */
   executeRecaptcha: (action: string) => Promise<string>;
 }
 
-/** React Hook to generate ReCaptcha token
+/**
+ * Custom hook to use Google reCAPTCHA v3.
+ *
+ * @param [reCaptchaKey] - Optional reCAPTCHA site key. If not provided, it will use the key from the context.
+ * @returns An object containing the reCAPTCHA context, grecaptcha instance, reCaptchaKey, and executeRecaptcha function.
+ *
  * @example
- * const { executeRecaptcha } = useReCaptcha()
+ * const { executeRecaptcha } = useReCaptcha();
+ *
+ * const handleSubmit = async () => {
+ *   try {
+ *     const token = await executeRecaptcha('your_action');
+ *     // Use the token for verification
+ *   } catch (error) {
+ *     console.error('ReCAPTCHA error:', error);
+ *   }
+ * };
  */
-const useReCaptcha = (reCaptchaKey?: string): useReCaptchaProps => {
-  const {
-    grecaptcha,
-    loaded,
-    reCaptchaKey: contextReCaptchaKey,
-    ...contextProps
-  } = useReCaptchaContext();
+export const useReCaptcha = (reCaptchaKey?: string): useReCaptchaProps => {
+  const context = useReCaptchaContext();
 
-  const siteKey = reCaptchaKey || contextReCaptchaKey;
+  const { useEnterprise } = context;
 
-  // Create a ref that stores 'grecaptcha.execute' method to prevent rerenders
-  const executeCaptchaRef = useRef(grecaptcha?.execute);
+  const grecaptcha = useGrecaptcha(useEnterprise);
 
-  useIsomorphicLayoutEffect(() => {
-    executeCaptchaRef.current = grecaptcha?.execute;
-  }, [loaded, grecaptcha?.execute]);
+  const siteKey = reCaptchaKey || context.reCaptchaKey;
 
   const executeRecaptcha = useCallback(
     async (action: string) => {
-      if (typeof executeCaptchaRef.current !== "function") {
-        throw new Error("Recaptcha has not been loaded");
-      }
-
       if (!siteKey) {
         throw new Error("ReCaptcha sitekey is not defined");
       }
 
-      const result = await executeCaptchaRef.current(siteKey, { action });
+      const grecaptcha = getGrecaptcha(useEnterprise);
+
+      if (typeof grecaptcha?.execute !== "function") {
+        throw new Error("Recaptcha has not been loaded");
+      }
+
+      if (typeof grecaptcha.ready === "function") {
+        await new Promise<void>((resolve) => {
+          grecaptcha.ready(resolve);
+        });
+      }
+
+      const result = await grecaptcha.execute(siteKey, { action });
 
       return result;
     },
-    [siteKey],
+    [useEnterprise, siteKey],
   );
 
-  return { ...contextProps, grecaptcha, loaded, reCaptchaKey: siteKey, executeRecaptcha };
+  return {
+    ...context,
+    grecaptcha,
+    reCaptchaKey: siteKey,
+    executeRecaptcha,
+  };
 };
-
-export { useReCaptcha };
