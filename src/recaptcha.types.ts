@@ -126,7 +126,6 @@ export interface IReCaptcha {
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var grecaptcha: IReCaptcha & {
     enterprise: IReCaptcha;
   };
