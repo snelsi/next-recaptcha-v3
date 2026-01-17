@@ -1,6 +1,6 @@
 {
   "name": "next-recaptcha-v3",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "description": "🤖 Next.js hook to add Google ReCaptcha to your application",
   "license": "MIT",
   "author": "Roman Zhuravlov",
