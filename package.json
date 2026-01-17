@@ -4,7 +4,10 @@
   "description": "🤖 Next.js hook to add Google ReCaptcha to your application",
   "license": "MIT",
   "author": "Roman Zhuravlov",
-  "repository": "https://github.com/snelsi/next-recaptcha-v3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snelsi/next-recaptcha-v3.git"
+  },
   "homepage": "https://github.com/snelsi/next-recaptcha-v3",
   "keywords": [
     "recaptcha",
